@@ -109,7 +109,7 @@ for (const data of registerCases) {
     console.log(`▶️ ${data.id}: ${data.title}`);
     const navigation = new NavigationPage (page);
     await navigation.goToRerForm();
-   // await page.goto('https://dev.2at.ai/auth/registerForm?partnership=client');
+   // await page.goto('https://2at.ai/auth/registerForm?partnership=client');
 
     // Заполнение формы
     if (data.company !== undefined)
@@ -123,6 +123,9 @@ for (const data of registerCases) {
 
     if (data.confirmPassword !== undefined)
       await page.getByPlaceholder('Confirm password').fill(data.confirmPassword);
+    
+    // Активировать чек-бокс
+    await page.getByRole('checkbox').click();
 
     // Нажать Create account
     await page.getByRole('button', { name: 'Create account' }).click();

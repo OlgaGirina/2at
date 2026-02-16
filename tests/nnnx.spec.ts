@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Login with email and password', async ({ page }) => {
   // Заходим на страницу логина
-  await page.goto('https://dev.2at.ai/auth/');
+  await page.goto('https://2at.ai/auth/');
   // Вводим email
   await page.getByPlaceholder('Enter email').fill('olik255@rambler.ru');
   // Вводим пароль

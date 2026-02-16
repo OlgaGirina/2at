@@ -12,7 +12,7 @@ test.describe('PROVIDER PROFILE TESTS', () => {
     await loginPage.login(PROVIDER.email, PROVIDER.password);
     // идём сразу в профиль
  // await navigation.goToProviderProfile('ef5f17d8-b391-4f20-80ed-7dbbb93d9d37')
-  await navigation.goToProviderProfile('5270d491-7a5a-4e67-83ff-646d68f364da')
+  await navigation.goToProviderProfile('c0f22134-1a1d-49cf-87c4-e6509109d9de')
   });
 
   test('PROVIDER-01 | Cannot update email to already registered one', async ({ page }) => {
@@ -54,9 +54,12 @@ test.describe('PROVIDER PROFILE TESTS', () => {
     await modal.getByPlaceholder('Leave empty to keep current password').fill(randomPassword);
     await modal.getByPlaceholder('Required when changing password or login').fill(randomPassword);
     await modal.getByRole('button', { name: 'Change' }).click();
-    const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
-    await expect(notif).toBeVisible({ timeout: 7000 });
-    await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 }); 
+    const error = modal.locator('#oldPswd_help .ant-form-item-explain-error');
+    await expect(error).toContainText(/Incorrect current password./i);
+
+   // const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
+  //  await expect(notif).toBeVisible({ timeout: 7000 });
+   // await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 }); 
   });
 
    test ('PROVIDER-04 | Error when incorrect new password entered', async ({ page }) => {
@@ -67,11 +70,11 @@ test.describe('PROVIDER PROFILE TESTS', () => {
     await modal.getByPlaceholder('Leave empty to keep current password').fill('ShPass');
     await modal.getByPlaceholder('Required when changing password or login').fill(randomPassword);
     await modal.getByRole('button', { name: 'Change' }).click();
-   // const error = modal.locator('#newPswd_help .ant-form-item-explain-error');
-   // await expect(error).toContainText(/Password must be 8–25 characters long/i);
-    const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
-  await expect(notif).toBeVisible({ timeout: 7000 });
-  await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
+    const error = modal.locator('#newPswd_help .ant-form-item-explain-error');
+    await expect(error).toContainText(/Password must be 8–25 characters long/i);
+   // const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
+  //await expect(notif).toBeVisible({ timeout: 7000 });
+  //await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
   });
   });
 

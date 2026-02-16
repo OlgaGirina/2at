@@ -11,12 +11,12 @@ test.describe('CLIENT PROFILE TESTS', () => {
     await loginPage.login(CLIENT.email, CLIENT.password);
 
     // идём сразу в профиль
-    await navigation.goToClientProfile('97')
+    await navigation.goToClientProfile('111')
    // await page.goto(CLIENT.profileUrl, { waitUntil: 'domcontentloaded' });
   });
 
    test('CLIENT-02 | Cannot update email to already registered one', async ({ page }) => {
-    await page.getByRole('button', { name: 'Close' }).click();
+   // await page.getByRole('button', { name: 'Close' }).click();
     await page.getByRole('button', { name: 'Update' }).click();
     const modal = page.locator('.ant-modal-content');
 
@@ -37,7 +37,7 @@ await expect(error).toContainText(/This email is already registered. Please use 
   });
 
    test('CLIENT-03 | Warning when changing email without current password', async ({ page }) => {
-    await page.getByRole('button', { name: 'Close' }).click();
+   // await page.getByRole('button', { name: 'Close' }).click();
     await page.getByRole('button', { name: 'Update' }).click();
     const modal = page.locator('.ant-modal-content');
 
@@ -50,7 +50,7 @@ await expect(error).toContainText(/This email is already registered. Please use 
 
   });
     test ('CLIENT-04 | Error when incorrect current password entered', async ({ page }) => {
-    await page.getByRole('button', { name: 'Close' }).click();
+  //  await page.getByRole('button', { name: 'Close' }).click();
     await page.getByRole('button', { name: 'Update' }).click();
     const modal = page.locator('.ant-modal-content');
     await modal.getByPlaceholder('Enter login').fill(/*'/emailtestclient@gmail.com'*/ CLIENT.email);
@@ -58,15 +58,16 @@ await expect(error).toContainText(/This email is already registered. Please use 
     await modal.getByPlaceholder('Required when changing password or login').fill('WrongOldPass');
 
     await modal.getByRole('button', { name: 'Change' }).click();
-
-    const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
-  await expect(notif).toBeVisible({ timeout: 7000 });
-  await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
+    const error = modal.locator('#oldPswd_help .ant-form-item-explain-error');
+    await expect(error).toContainText(/Incorrect current password./i);
+    //const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
+  //await expect(notif).toBeVisible({ timeout: 7000 });
+  //await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
 
   });
 
    test ('CLIENT-05 | Error when incorrect new password entered', async ({ page }) => {
-    await page.getByRole('button', { name: 'Close' }).click();
+   // await page.getByRole('button', { name: 'Close' }).click();
     await page.getByRole('button', { name: 'Update' }).click();
     const modal = page.locator('.ant-modal-content');
 
@@ -76,10 +77,10 @@ await expect(error).toContainText(/This email is already registered. Please use 
     await modal.getByPlaceholder('Required when changing password or login').fill(CLIENT.password);
     await modal.getByRole('button', { name: 'Change' }).click();
 
-    //const error = modal.locator('#newPswd_help .ant-form-item-explain-error');
-    //await expect(error).toContainText(/Password must be 8–25 characters long/i);
-    const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
-  await expect(notif).toBeVisible({ timeout: 7000 });
-  await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
+    const error = modal.locator('#newPswd_help .ant-form-item-explain-error');
+    await expect(error).toContainText(/Password must be 8–25 characters long/i);
+  //  const notif = page.getByRole('alert').locator('.ant-notification-notice-description').first();
+  //await expect(notif).toBeVisible({ timeout: 7000 });
+ // await expect(notif).toContainText(/Failed to update password/i, { timeout: 5000 });
   });
 });

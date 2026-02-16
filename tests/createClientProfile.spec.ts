@@ -30,7 +30,7 @@ test.describe('CLIENT PROFILE TESTS', () => {
       {
         name: 'access_token',
         value: token,
-        domain: 'dev.2at.ai',
+        domain: '2at.ai',
         path: '/',
         httpOnly: false,
         secure: true,
